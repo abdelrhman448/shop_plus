@@ -33,6 +33,10 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# fvm: the local SDK symlink is machine-specific; keep the version config only
+.fvm/flutter_sdk
+.fvm/versions/
+
 # Symbolication related
 app.*.symbols
 

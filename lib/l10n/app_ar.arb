@@ -1,0 +1,55 @@
+{
+  "@@locale": "ar",
+  "appTitle": "محفظة شوب بلس",
+
+  "walletTitle": "المحفظة",
+  "totalBalance": "الرصيد الكلي",
+  "pointsUnit": "نقطة",
+  "pending": "معلّقة",
+  "expiring": "تنتهي قريبًا",
+  "expiresOn": "تنتهي في {date}",
+  "lastUpdated": "آخر تحديث {date}",
+
+  "transactions": "المعاملات",
+  "filterAll": "الكل",
+  "filterEarn": "ربح",
+  "filterRedeem": "استبدال",
+  "filterTransfer": "تحويل",
+  "filterPurchase": "شراء",
+
+  "statusCompleted": "مكتملة",
+  "statusPending": "معلّقة",
+  "statusFailed": "فشلت",
+
+  "emptyTransactionsTitle": "لا توجد معاملات",
+  "emptyTransactionsMessage": "ستظهر المعاملات المطابقة لهذا الفلتر هنا.",
+
+  "retry": "إعادة المحاولة",
+  "errorGeneric": "حدث خطأ ما. برجاء المحاولة مرة أخرى.",
+  "errorNetwork": "لا يوجد اتصال بالإنترنت. تحقق من الشبكة وأعد المحاولة.",
+  "errorInsufficientBalance": "رصيدك من النقاط غير كافٍ.",
+  "errorRecipientNotFound": "لم يتم العثور على المستلم.",
+
+  "transfer": "تحويل",
+  "transferPoints": "تحويل النقاط",
+  "recipientLabel": "المستلم",
+  "recipientHint": "هاتف (+20...) أو بريد إلكتروني",
+  "amountLabel": "عدد النقاط",
+  "amountHint": "الحد الأدنى 100 نقطة",
+  "noteLabel": "ملاحظة (اختياري)",
+  "noteHint": "أضف رسالة قصيرة",
+  "availableBalance": "المتاح: {points} نقطة",
+  "sendPoints": "إرسال النقاط",
+
+  "validationRecipientRequired": "المستلم مطلوب",
+  "validationRecipientInvalid": "أدخل رقم هاتف مصري صحيح (+20...) أو بريدًا إلكترونيًا",
+  "validationAmountRequired": "عدد النقاط مطلوب",
+  "validationAmountInteger": "أدخل رقمًا صحيحًا",
+  "validationAmountMin": "الحد الأدنى {min} نقطة",
+  "validationAmountMax": "لديك {max} نقطة فقط",
+  "validationNoteMax": "يجب ألا تتجاوز الملاحظة {max} حرفًا",
+
+  "transferSuccessTitle": "تم التحويل بنجاح",
+  "transferSuccessMessage": "أرسلت {points} نقطة. الرصيد الجديد: {balance} نقطة.",
+  "done": "تم"
+}

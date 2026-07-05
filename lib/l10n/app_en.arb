@@ -1,0 +1,79 @@
+{
+  "@@locale": "en",
+  "appTitle": "ShopPlus Wallet",
+
+  "walletTitle": "Wallet",
+  "totalBalance": "Total Balance",
+  "pointsUnit": "pts",
+  "pending": "Pending",
+  "expiring": "Expiring",
+  "expiresOn": "Expires on {date}",
+  "@expiresOn": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "lastUpdated": "Last updated {date}",
+  "@lastUpdated": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "transactions": "Transactions",
+  "filterAll": "All",
+  "filterEarn": "Earn",
+  "filterRedeem": "Redeem",
+  "filterTransfer": "Transfer",
+  "filterPurchase": "Purchase",
+
+  "statusCompleted": "Completed",
+  "statusPending": "Pending",
+  "statusFailed": "Failed",
+
+  "emptyTransactionsTitle": "No transactions yet",
+  "emptyTransactionsMessage": "Transactions matching this filter will appear here.",
+
+  "retry": "Retry",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "errorNetwork": "No internet connection. Check your network and retry.",
+  "errorInsufficientBalance": "You don't have enough points.",
+  "errorRecipientNotFound": "Recipient not found.",
+
+  "transfer": "Transfer",
+  "transferPoints": "Transfer Points",
+  "recipientLabel": "Recipient",
+  "recipientHint": "Phone (+20...) or email",
+  "amountLabel": "Points amount",
+  "amountHint": "Minimum 100 points",
+  "noteLabel": "Note (optional)",
+  "noteHint": "Add a short message",
+  "availableBalance": "Available: {points} pts",
+  "@availableBalance": {
+    "placeholders": { "points": { "type": "String" } }
+  },
+  "sendPoints": "Send Points",
+
+  "validationRecipientRequired": "Recipient is required",
+  "validationRecipientInvalid": "Enter a valid Egyptian phone (+20...) or email",
+  "validationAmountRequired": "Amount is required",
+  "validationAmountInteger": "Enter a whole number",
+  "validationAmountMin": "Minimum is {min} points",
+  "@validationAmountMin": {
+    "placeholders": { "min": { "type": "int" } }
+  },
+  "validationAmountMax": "You only have {max} points",
+  "@validationAmountMax": {
+    "placeholders": { "max": { "type": "int" } }
+  },
+  "validationNoteMax": "Note must be {max} characters or fewer",
+  "@validationNoteMax": {
+    "placeholders": { "max": { "type": "int" } }
+  },
+
+  "transferSuccessTitle": "Transfer successful",
+  "transferSuccessMessage": "You sent {points} pts. New balance: {balance} pts.",
+  "@transferSuccessMessage": {
+    "placeholders": {
+      "points": { "type": "String" },
+      "balance": { "type": "String" }
+    }
+  },
+  "done": "Done"
+}

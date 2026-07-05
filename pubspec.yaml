@@ -42,6 +42,9 @@ dependencies:
 
   # Networking (kept for the future real API integration)
   http: ^1.6.0
+  # Local reusable package: HTTP client with interceptors + retry
+  api_client:
+    path: packages/api_client
 
   # UI helpers
   shimmer: ^3.0.0

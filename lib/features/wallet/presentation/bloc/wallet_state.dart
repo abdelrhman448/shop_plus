@@ -1,6 +1,5 @@
 part of 'wallet_bloc.dart';
 
-/// Base class for all wallet states.
 sealed class WalletState extends Equatable {
   const WalletState();
 
@@ -8,22 +7,19 @@ sealed class WalletState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Nothing has been requested yet.
+// Haven't asked for anything yet.
 class WalletInitial extends WalletState {
   const WalletInitial();
 }
 
-/// The first load is in progress (full-screen loading / shimmer).
+// First load in progress (shimmer).
 class WalletLoading extends WalletState {
   const WalletLoading();
 }
 
-/// Data is available.
-///
-/// [transactions] is the full, unfiltered list that has been loaded so far.
-/// The UI reads [visibleTransactions], which applies [activeFilter] on top of
-/// that master list. Keeping the master list intact means switching filters
-/// never loses data and requires no extra network calls.
+// We have data. `transactions` is the full list we've loaded; the UI reads
+// `visibleTransactions`, which applies the filter on top. Keeping the full list
+// means switching filters never loses data or hits the network again.
 class WalletLoaded extends WalletState {
   const WalletLoaded({
     required this.balance,
@@ -41,7 +37,7 @@ class WalletLoaded extends WalletState {
   final bool hasNext;
   final bool isLoadingMore;
 
-  /// Transactions after applying [activeFilter] (all of them when null).
+  // The list after the filter (or everything when there's no filter).
   List<Transaction> get visibleTransactions {
     final filter = activeFilter;
     if (filter == null) return transactions;
@@ -78,8 +74,8 @@ class WalletLoaded extends WalletState {
       ];
 }
 
-/// Loading failed. [code] lets the UI show a localized message and [message]
-/// is a sensible fallback. The screen offers a retry action.
+// Something failed. `code` picks the localized message, `message` is a fallback.
+// The screen shows a retry button.
 class WalletError extends WalletState {
   const WalletError({required this.code, required this.message});
 

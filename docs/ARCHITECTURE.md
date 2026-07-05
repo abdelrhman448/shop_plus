@@ -2,96 +2,101 @@
 
 ## 1.1 Project Structure
 
-The feature is organized **feature-first**, and each feature is split into
-**layers** (`data` / `presentation`). Cross-cutting concerns live in `core`.
+I organized the project using a **feature-first structure**. The wallet feature has its own folder, and inside it the code is split into clear layers such as `data` and `presentation`. Shared code that can be reused by other features lives inside `core`.
 
-```
+```txt
 lib/
-├── core/                         # Shared, feature-agnostic building blocks
-│   ├── error/                    # WalletException + typed WalletErrorCode
-│   ├── locale/                   # LocaleCubit (in-app en/ar switch)
-│   ├── network/                  # (future) real HTTP client — see optional pkg
-│   ├── responsive/               # Breakpoints + CenteredContent helpers
+├── core/
+│   ├── error/                    # App exceptions and wallet error codes
+│   ├── locale/                   # Language switching logic
+│   ├── network/                  # Future HTTP client setup
+│   ├── responsive/               # Responsive layout helpers
 │   ├── router/                   # GoRouter configuration
-│   ├── theme/                    # AppColors, AppTheme
-│   ├── utils/                    # Formatters, Validators
-│   └── widgets/                  # Small shared widgets (LanguageToggleButton)
+│   ├── theme/                    # Colors and app theme
+│   ├── utils/                    # Formatters and validators
+│   └── widgets/                  # Shared reusable widgets
 ├── features/
 │   └── wallet/
 │       ├── data/
-│       │   ├── models/           # Immutable, JSON-serializable value objects
-│       │   └── repositories/     # WalletRepository (abstract) + Mock impl
+│       │   ├── models/           # Wallet models and JSON serialization
+│       │   └── repositories/     # WalletRepository and mock implementation
 │       └── presentation/
-│           ├── bloc/             # WalletBloc (events + states)
-│           ├── screens/          # WalletScreen
-│           ├── transfer/         # TransferCubit + TransferScreen
-│           └── widgets/          # BalanceCard, TransactionTile, filters, ...
-├── l10n/                         # ARB files + generated AppLocalizations
-├── app.dart                      # MaterialApp.router + theming + l10n
-└── main.dart                     # Dependency injection bootstrap
+│           ├── bloc/             # WalletBloc, events, and states
+│           ├── screens/          # Wallet screen
+│           ├── transfer/         # Transfer screen and transfer state logic
+│           └── widgets/          # Wallet-specific UI widgets
+├── l10n/                         # Localization files
+├── app.dart                      # App configuration
+└── main.dart                     # Dependency injection entry point
 ```
 
-**Why feature-first (vs. layer-first)?** A `features/wallet/` folder keeps
-everything about one capability in one place, so the code is easy to navigate,
-own, and eventually extract into a module/package. Layer-first (`models/`,
-`screens/`, `blocs/` at the root) scatters a single feature across the tree and
-scales poorly as features multiply. Inside each feature we still separate
-`data` from `presentation` so UI never touches networking directly.
+I choose this structure because it keeps everything related to the wallet feature in one place. This makes the code easier to read, test, and maintain. If the application grows later, each new feature can follow the same pattern without mixing unrelated files together.
 
-**Dependency direction:** `presentation → data (abstraction)`. The BLoC depends
-only on the `WalletRepository` *interface*, never on `MockWalletRepository`.
-Swapping in a real API is a one-line change in `main.dart`.
+The UI layer does not depend directly on a concrete data source. Instead, it works with the `WalletRepository` abstraction. For this assessment, the app uses `MockWalletRepository`, but the same screens and BLoC can work with a real API implementation later with minimal changes.
 
-## 1.2 State Management Choice — BLoC (`flutter_bloc`)
+---
 
-**Choice:** `flutter_bloc` — `WalletBloc` for the wallet screen and a
-`TransferCubit` for the single-action transfer form.
+## 1.2 State Management Choice
 
-**Justification:**
-- The assessment explicitly requires `flutter_bloc`.
-- BLoC gives an explicit, testable event→state contract that shines for a screen
-  with several actions (load, refresh, filter, paginate) and clear states
-  (initial/loading/loaded/error). Those states are trivial to unit-test with
-  `bloc_test`.
-- A **Cubit** is used for the transfer submission because it has a single
-  imperative action (`submit`); a full event-driven Bloc would be ceremony
-  without benefit. Both come from the same library, so the mental model is one.
+I used `flutter_bloc` for the wallet screen because the screen has multiple actions and states: loading wallet data, refreshing, filtering transactions, handling errors, and loading more items.
 
-### State flow
+For the transfer screen, I used a simpler Cubit because the flow is more direct: the user fills the form, submits it, then the screen shows either loading, success, or failure. Using a full Bloc there would add extra complexity without much benefit.
+
+This approach keeps the wallet logic predictable and easy to test. Each user action maps clearly to a state change, which is useful for both debugging and unit testing.
+
+### Wallet State Flow
 
 ```mermaid
 stateDiagram-v2
     [*] --> WalletInitial
     WalletInitial --> WalletLoading: LoadWallet
-    WalletLoading --> WalletLoaded: data resolved
-    WalletLoading --> WalletError: repository throws
-    WalletError --> WalletLoading: Retry (LoadWallet)
-    WalletLoaded --> WalletLoaded: FilterTransactions (in-memory, keeps master list)
-    WalletLoaded --> WalletLoaded: LoadMoreTransactions (append page)
+    WalletLoading --> WalletLoaded: Data loaded
+    WalletLoading --> WalletError: Error occurred
+    WalletError --> WalletLoading: Retry
+    WalletLoaded --> WalletLoaded: FilterTransactions
+    WalletLoaded --> WalletLoaded: LoadMoreTransactions
     WalletLoaded --> WalletLoading: RefreshWallet
 ```
 
-Mapped to the required scenario:
+The main flow is:
 
-> User opens Wallet → **WalletLoading** (shimmer) → balance + first page load →
-> **WalletLoaded** → user taps a filter chip → **WalletLoaded** with
-> `activeFilter` set; `visibleTransactions` recomputes from the **preserved**
-> master list, so switching back to "All" restores everything with no refetch.
+```txt
+User opens Wallet
+↓
+Wallet starts loading
+↓
+Balance and transactions are loaded
+↓
+Wallet screen displays the data
+↓
+User selects a transaction filter
+↓
+Filtered transactions are displayed
+```
+
+When filtering transactions, the original transaction list is preserved. This is important because the user should be able to switch between filters such as `All`, `Earn`, `Redeem`, and `Transfer` without losing the original data or needing to reload everything from the repository.
+
+---
 
 ## 1.3 Error Handling Approach
 
-Errors are modeled as a **typed** `WalletException(code, message)` where `code`
-maps to a `WalletErrorCode` enum (`insufficientBalance`, `recipientNotFound`,
-`network`, `unknown`). This keeps error handling type-safe end-to-end.
+Errors are handled in a structured way instead of throwing generic exceptions everywhere.
 
-- **Data layer** throws `WalletException` for known API errors.
-- **BLoC/Cubit** catch it and emit an error state carrying the `code`
-  (`WalletError` / `TransferFailure`). Unexpected errors are mapped to
-  `WalletErrorCode.unknown` so nothing leaks a raw stack trace to the user.
-- **UI layer** translates the `code` into a **localized** message
-  (`WalletErrorView.messageFor`) and chooses the presentation:
-  - full-screen load failure → `WalletErrorView` with a **Retry** button,
-  - transfer failure (`INSUFFICIENT_BALANCE`, `RECIPIENT_NOT_FOUND`) →
-    inline **SnackBar** so the user keeps their form input,
-  - **validation errors** are handled before any request via `TextFormField`
-    validators, so invalid input never reaches the repository.
+The data layer throws a custom `WalletException` for known wallet-related errors. Each exception has a clear error code, such as:
+
+```txt
+INSUFFICIENT_BALANCE
+RECIPIENT_NOT_FOUND
+NETWORK_ERROR
+UNKNOWN_ERROR
+```
+
+The BLoC or Cubit catches these exceptions and converts them into UI states. This keeps the UI simple because it only reacts to states like `WalletError` or `TransferFailure`.
+
+For the wallet screen, loading errors are shown as a full error view with a retry button. This allows the user to try loading the wallet again.
+
+For the transfer screen, business errors such as insufficient balance or recipient not found are shown as clear user-facing messages. The user stays on the form so they can fix the issue without losing their input.
+
+Form validation errors are handled before submitting the request. For example, the app validates that the recipient is a valid email or Egyptian phone number, the points amount is a whole number, and the note does not exceed the allowed length. This prevents invalid data from reaching the repository in the first place.
+
+Unexpected errors are converted into a safe generic message, so raw technical details or stack traces are never shown to the user.

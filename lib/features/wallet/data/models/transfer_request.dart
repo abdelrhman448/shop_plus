@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-/// The payload sent when a user transfers points to someone else.
-///
-/// [recipient] is a validated phone number or email. [note] is optional.
+// What we send when transferring points. recipient is a validated phone/email;
+// note is optional.
 class TransferRequest extends Equatable {
   const TransferRequest({
     required this.recipient,

@@ -3,16 +3,14 @@ import 'dart:async';
 import 'api_request.dart';
 import 'api_response.dart';
 
-/// Hook into the request/response lifecycle.
-///
-/// Interceptors run in order for [onRequest] (each may transform the request)
-/// and in reverse order for [onResponse]. Override only what you need.
+// Hook into requests/responses. onRequest runs in order (each can tweak the
+// request); onResponse runs in reverse. Override just what you need.
 abstract class ApiInterceptor {
   const ApiInterceptor();
 
-  /// Called before a request is sent. Return the (possibly modified) request.
+  // Before sending: return the (maybe modified) request.
   FutureOr<ApiRequest> onRequest(ApiRequest request) => request;
 
-  /// Called after a successful response is decoded.
+  // After a successful response is decoded.
   FutureOr<void> onResponse(ApiRequest request, ApiResponse response) {}
 }

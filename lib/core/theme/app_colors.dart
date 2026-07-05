@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 
-/// Central palette for the app.
-///
-/// The base brand colors are taken from the design spec. Everything else in
-/// the app should reference these values instead of hard-coding hex codes so
-/// that theming stays consistent and easy to change in one place.
+// All app colors live here so we don't scatter hex codes everywhere.
+// Brand colors come from the design spec.
 abstract final class AppColors {
   const AppColors._();
 
-  // Brand colors (from the design spec).
   static const Color primary = Color(0xFF6C5CE7); // Purple
   static const Color secondary = Color(0xFF00D9A5); // Teal
   static const Color success = Color(0xFF00B894);
   static const Color error = Color(0xFFE74C3C);
 
-  // Neutrals.
+  // Neutrals
   static const Color white = Color(0xFFFFFFFF);
   static const Color scaffoldLight = Color(0xFFF7F7FB);
   static const Color scaffoldDark = Color(0xFF121018);
@@ -22,7 +18,7 @@ abstract final class AppColors {
   static const Color textSecondary = Color(0xFF6E6E80);
   static const Color divider = Color(0xFFE7E7EF);
 
-  // Semantic transaction colors.
+  // One color per transaction type
   static const Color earn = success;
   static const Color redeem = error;
   static const Color transferIn = secondary;

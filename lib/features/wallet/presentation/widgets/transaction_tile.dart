@@ -7,10 +7,8 @@ import '../../../../l10n/app_localizations.dart';
 import '../../data/models/models.dart';
 import 'transaction_visuals.dart';
 
-/// A single transaction row: icon/logo, description, timestamp, points, status.
-///
-/// Uses [CachedNetworkImage] so merchant logos are cached and never re-fetched
-/// on scroll, and a `const`-friendly layout to keep list rebuilds cheap.
+// One row: icon/logo, description, time, points and status. CachedNetworkImage
+// keeps logos cached so we don't refetch them while scrolling.
 class TransactionTile extends StatelessWidget {
   const TransactionTile({super.key, required this.transaction});
 
@@ -110,8 +108,8 @@ class _Leading extends StatelessWidget {
           width: 48,
           height: 48,
           fit: BoxFit.cover,
-          placeholder: (_, __) => icon,
-          errorWidget: (_, __, ___) => icon,
+          placeholder: (_, _) => icon,
+          errorWidget: (_, _, _) => icon,
         ),
       ),
     );

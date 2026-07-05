@@ -1,8 +1,4 @@
-/// Error thrown by [ApiClient] for non-2xx responses, timeouts and transport
-/// failures.
-///
-/// Interceptors can transform raw transport errors into domain-specific
-/// [ApiException]s (e.g. mapping a `401` to an auth error).
+// What ApiClient throws for non-2xx responses, timeouts and network failures.
 class ApiException implements Exception {
   const ApiException({
     required this.message,
@@ -13,16 +9,16 @@ class ApiException implements Exception {
 
   final String message;
 
-  /// HTTP status code, or `null` for transport/timeout errors.
+  // Status code, or null for transport/timeout errors.
   final int? statusCode;
 
-  /// Optional machine-readable error code from the server body.
+  // Machine-readable code from the server body, if any.
   final String? code;
 
-  /// The decoded error body, if any.
+  // The decoded error body, if any.
   final Object? data;
 
-  /// Whether retrying might help (network errors and 5xx / 408 / 429).
+  // Worth retrying? (network errors, plus 5xx / 408 / 429).
   bool get isRetryable {
     final s = statusCode;
     if (s == null) return true; // transport / timeout

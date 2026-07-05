@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-/// Skeleton placeholder shown during the initial load.
-///
-/// A shimmer conveys progress and the eventual layout better than a bare
-/// spinner, improving perceived performance.
+// Skeleton we show on first load. Feels faster than a bare spinner and hints
+// at the layout that's coming.
 class WalletShimmer extends StatelessWidget {
   const WalletShimmer({super.key});
 

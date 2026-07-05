@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'transaction.dart';
 
-/// A page of [Transaction]s plus the metadata needed to load further pages.
+// One page of transactions + the info we need to fetch the next page.
 class PaginatedTransactions extends Equatable {
   const PaginatedTransactions({
     required this.transactions,

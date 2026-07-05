@@ -2,10 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import 'merchant_balance.dart';
 
-/// The user's overall points balance and its breakdown per merchant.
-///
-/// Immutable, JSON-serializable and supports [copyWith]. Dates are serialized
-/// as ISO-8601 UTC strings to match the API contract.
+// The user's total balance plus the per-merchant breakdown.
+// Immutable + JSON. Dates go out as ISO-8601 UTC to match the API.
 class PointsBalance extends Equatable {
   const PointsBalance({
     required this.totalPoints,

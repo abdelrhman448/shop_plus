@@ -9,14 +9,12 @@ import 'api_response.dart';
 import 'interceptor.dart';
 import 'retry_policy.dart';
 
-/// A small HTTP client built on `package:http` with:
-/// - a configurable [baseUrl] and [timeout],
-/// - ordered [interceptors] (auth token injection, logging, ...),
-/// - [RetryPolicy] with exponential backoff for transient failures,
-/// - JSON encode/decode and typed [ApiException] error transformation.
-///
-/// The underlying [http.Client] is injectable, which makes the client trivial
-/// to unit-test with `package:http`'s `MockClient`.
+// Small HTTP client on top of package:http:
+//   - configurable base URL + timeout
+//   - ordered interceptors (auth, logging, ...)
+//   - retry with exponential backoff for flaky calls
+//   - JSON encode/decode and a typed ApiException
+// The http.Client is injectable, so it's easy to test with MockClient.
 class ApiClient {
   ApiClient({
     required this.baseUrl,
@@ -50,7 +48,7 @@ class ApiClient {
   Future<ApiResponse> delete(String path, {Object? body}) =>
       send(ApiRequest(method: HttpMethod.delete, path: path, body: body));
 
-  /// Sends [request] through the interceptor chain with retry + backoff.
+  // Runs the request through the interceptors, retrying on flaky failures.
   Future<ApiResponse> send(ApiRequest request) async {
     var attempt = 0;
     while (true) {
@@ -65,7 +63,7 @@ class ApiClient {
   }
 
   Future<ApiResponse> _sendOnce(ApiRequest original) async {
-    // Run request interceptors in order.
+    // Request interceptors, in order.
     var request = original.withHeaders(defaultHeaders);
     for (final interceptor in interceptors) {
       request = await interceptor.onRequest(request);
@@ -100,7 +98,7 @@ class ApiClient {
       throw _errorFrom(response);
     }
 
-    // Run response interceptors in reverse order.
+    // Response interceptors, reverse order.
     for (final interceptor in interceptors.reversed) {
       await interceptor.onResponse(request, response);
     }
@@ -138,7 +136,7 @@ class ApiClient {
     try {
       return jsonDecode(body);
     } on FormatException {
-      return body; // Non-JSON payload; return raw text.
+      return body; // Not JSON, just hand back the raw text.
     }
   }
 
@@ -158,6 +156,6 @@ class ApiClient {
     );
   }
 
-  /// Closes the underlying HTTP client.
+  // Close the underlying http client.
   void close() => _http.close();
 }

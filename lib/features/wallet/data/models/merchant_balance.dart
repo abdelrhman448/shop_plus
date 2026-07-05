@@ -1,16 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-/// Points a user holds with a single merchant, plus their loyalty tier.
-///
-/// Immutable value object: [Equatable] gives value equality and [copyWith]
-/// allows creating modified copies without mutating the original.
+// How many points the user has with one merchant, plus their tier.
+// Immutable value object (Equatable for value equality, copyWith for tweaks).
 class MerchantBalance extends Equatable {
   const MerchantBalance({
     required this.merchantId,
     required this.merchantName,
     required this.merchantLogo,
     required this.points,
-    required this.tier,
+      required this.tier,
   });
 
   final String merchantId;

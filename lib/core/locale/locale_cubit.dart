@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Holds the app's active [Locale] and lets the UI toggle between the two
-/// supported languages (English / Arabic).
-///
-/// A `null` locale would mean "follow the system", but we keep an explicit
-/// locale so the in-app language switch is predictable.
+// Keeps the current language and lets us flip between English and Arabic.
+// We use an explicit locale (not "follow system") so the toggle is predictable.
 class LocaleCubit extends Cubit<Locale> {
   LocaleCubit([super.initial = const Locale('en')]);
 

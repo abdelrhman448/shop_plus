@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/error/wallet_exception.dart';
 import '../../../../l10n/app_localizations.dart';
 
-/// Full-screen error state with a retry action.
+// Full-screen error with a retry button.
 class WalletErrorView extends StatelessWidget {
   const WalletErrorView({
     super.key,
@@ -50,7 +50,7 @@ class WalletErrorView extends StatelessWidget {
     );
   }
 
-  /// Maps a [WalletErrorCode] to a localized, user-facing message.
+  // Turn an error code into a localized message for the user.
   static String messageFor(
     AppLocalizations l10n,
     WalletErrorCode code,

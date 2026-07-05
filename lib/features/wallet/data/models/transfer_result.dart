@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// The successful outcome of a points transfer.
+// What comes back after a successful transfer.
 class TransferResult extends Equatable {
   const TransferResult({
     required this.transactionId,

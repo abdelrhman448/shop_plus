@@ -12,11 +12,10 @@ import '../../data/models/models.dart';
 import '../widgets/wallet_error_view.dart';
 import 'transfer_cubit.dart';
 
-/// Screen to transfer points to another user.
-///
-/// Sensitive-data handling: the amount/recipient are never logged, autofill and
-/// suggestions are disabled on the sensitive fields, and all controllers are
-/// cleared and disposed when the screen is popped so nothing lingers in memory.
+// Send points to someone else.
+// Sensitive data: we don't log the amount/recipient, turn off autofill and
+// suggestions on those fields, and clear + dispose the controllers on exit so
+// nothing sticks around in memory.
 class TransferScreen extends StatefulWidget {
   const TransferScreen({super.key, required this.availableBalance});
 
@@ -42,7 +41,7 @@ class _TransferScreenState extends State<TransferScreen> {
 
   @override
   void dispose() {
-    // Clear sensitive input before releasing the buffers.
+    // Wipe the fields before we let them go.
     _recipientController.clear();
     _amountController.clear();
     _noteController.clear();
@@ -99,6 +98,7 @@ class _TransferScreenState extends State<TransferScreen> {
       ),
     );
 
+    // Back to the wallet once they close the dialog.
     if (mounted) context.pop();
   }
 
@@ -155,7 +155,7 @@ class _TransferScreenState extends State<TransferScreen> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: _recipientController,
-                      // Sensitive: no autofill/suggestions/autocorrect.
+                      // Sensitive field: keep keyboard/autofill from remembering it.
                       autofillHints: const [],
                       enableSuggestions: false,
                       autocorrect: false,

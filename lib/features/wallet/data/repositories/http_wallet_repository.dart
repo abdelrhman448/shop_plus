@@ -4,11 +4,9 @@ import '../../../../core/error/wallet_exception.dart';
 import '../models/models.dart';
 import 'wallet_repository.dart';
 
-/// Real API implementation of [WalletRepository] backed by [ApiClient].
-///
-/// This is the drop-in replacement for `MockWalletRepository` once the backend
-/// is live: change one line in `main.dart` and the rest of the app is unchanged.
-/// It is included to demonstrate the seam; it is not wired into the running app.
+// The real API version, on top of ApiClient. Drop-in replacement for the mock:
+// swap one line in main.dart and nothing else changes. Here to show the seam;
+// not actually wired up yet.
 class HttpWalletRepository implements WalletRepository {
   const HttpWalletRepository(this._client);
 
@@ -44,8 +42,8 @@ class HttpWalletRepository implements WalletRepository {
     return TransferResult.fromJson(response.data as Map<String, dynamic>);
   }
 
-  /// Translates transport-level [ApiException]s into domain [WalletException]s
-  /// so the BLoC layer only ever deals with one error type.
+  // Turn transport-level ApiExceptions into our WalletException so the BLoC
+  // only deals with one error type.
   Future<ApiResponse> _mapErrors(Future<ApiResponse> Function() call) async {
     try {
       return await call();

@@ -4,10 +4,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/models/models.dart';
 
-/// Maps a [TransactionType]/[TransactionStatus] to its icon, color and label.
-///
-/// Keeping this mapping in one place means the list tiles, filter chips and any
-/// future screens stay visually consistent.
+// Icon/color/label for each transaction type and status, all in one place so
+// the tiles, chips and anything else stay consistent.
 abstract final class TransactionVisuals {
   const TransactionVisuals._();
 

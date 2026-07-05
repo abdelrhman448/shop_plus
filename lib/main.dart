@@ -10,11 +10,8 @@ void main() {
   runApp(const ShopPlusBootstrap());
 }
 
-/// Provides app-wide dependencies (the repository and the locale controller)
-/// above the router so every route can read them.
-///
-/// Swapping [MockWalletRepository] for a real HTTP implementation later is a
-/// one-line change here — nothing else in the app needs to know.
+// Puts the app-wide stuff (repository + locale) above the router so every
+// route can reach it. Going from the mock to a real repo is a one-liner here.
 class ShopPlusBootstrap extends StatelessWidget {
   const ShopPlusBootstrap({super.key});
 

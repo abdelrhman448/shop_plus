@@ -3,10 +3,9 @@ import 'dart:async';
 import '../api_request.dart';
 import '../interceptor.dart';
 
-/// Injects an `Authorization: Bearer <token>` header when a token is available.
-///
-/// [tokenProvider] is called per request so rotated/refreshed tokens are picked
-/// up automatically. Returning `null` leaves the request unauthenticated.
+// Adds an "Authorization: Bearer <token>" header when there's a token.
+// tokenProvider is called per request, so refreshed tokens just work. Return
+// null to leave the request unauthenticated.
 class AuthInterceptor extends ApiInterceptor {
   const AuthInterceptor(this.tokenProvider, {this.scheme = 'Bearer'});
 

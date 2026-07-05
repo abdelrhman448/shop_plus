@@ -1,6 +1,4 @@
-/// A small, testable HTTP client with interceptors and retry support.
-///
-/// See the package README for usage examples.
+// Small HTTP client with interceptors + retry. See the README for examples.
 library;
 
 export 'src/api_client_base.dart';

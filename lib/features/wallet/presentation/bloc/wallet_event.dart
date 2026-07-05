@@ -1,6 +1,5 @@
 part of 'wallet_bloc.dart';
 
-/// Base class for all wallet events.
 sealed class WalletEvent extends Equatable {
   const WalletEvent();
 
@@ -8,20 +7,18 @@ sealed class WalletEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Loads the balance and the first page of transactions.
+// First load: balance + first page of transactions.
 class LoadWallet extends WalletEvent {
   const LoadWallet();
 }
 
-/// Reloads everything from scratch (used by pull-to-refresh).
+// Pull-to-refresh.
 class RefreshWallet extends WalletEvent {
   const RefreshWallet();
 }
 
-/// Changes the active transaction-type filter.
-///
-/// A `null` [type] means "All". Filtering preserves the already-loaded data so
-/// switching back to "All" restores the full list without a new request.
+// Change the type filter. null == "All". We keep the loaded data around, so
+// going back to "All" doesn't need another request.
 class FilterTransactions extends WalletEvent {
   const FilterTransactions(this.type);
 
@@ -31,7 +28,7 @@ class FilterTransactions extends WalletEvent {
   List<Object?> get props => [type];
 }
 
-/// Loads the next page of transactions and appends it to the current list.
+// Grab the next page and append it.
 class LoadMoreTransactions extends WalletEvent {
   const LoadMoreTransactions();
 }

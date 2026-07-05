@@ -4,10 +4,8 @@ import '../api_request.dart';
 import '../api_response.dart';
 import '../interceptor.dart';
 
-/// Logs outgoing requests and incoming responses via the injected [log] sink.
-///
-/// The sink defaults to `print`, but tests (or production logging setups) can
-/// pass their own function to capture output.
+// Logs requests and responses. Defaults to print, but you can pass your own
+// log function (handy in tests or a real logging setup).
 class LoggingInterceptor extends ApiInterceptor {
   const LoggingInterceptor({this.log = print});
 

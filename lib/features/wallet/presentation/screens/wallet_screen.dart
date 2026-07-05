@@ -14,10 +14,8 @@ import '../widgets/transaction_tile.dart';
 import '../widgets/wallet_error_view.dart';
 import '../widgets/wallet_shimmer.dart';
 
-/// The main Wallet screen: balance, filters and transaction history.
-///
-/// Reacts to [WalletBloc] state. On wide screens the content is constrained to
-/// a readable width so it stays usable on web/desktop.
+// Main Wallet screen: balance, filters and history. Just reacts to WalletBloc.
+// On wide screens we cap the width so it stays usable on web/desktop.
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
 
@@ -46,7 +44,7 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   void _onScroll() {
-    // Trigger pagination shortly before reaching the very bottom.
+    // Load the next page a bit before we hit the bottom.
     final position = _scrollController.position;
     if (position.pixels >= position.maxScrollExtent - 240) {
       context.read<WalletBloc>().add(const LoadMoreTransactions());
@@ -58,7 +56,7 @@ class _WalletScreenState extends State<WalletScreen> {
       'transfer',
       extra: balance.totalPoints,
     );
-    // Refresh on return so a successful transfer is reflected immediately.
+    // Coming back from a transfer? Refresh so the new balance shows up.
     if (mounted) {
       context.read<WalletBloc>().add(const RefreshWallet());
     }
@@ -116,7 +114,7 @@ class _LoadedView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         context.read<WalletBloc>().add(const RefreshWallet());
-        // Wait until the bloc leaves the loaded->loaded refresh cycle.
+        // Keep the spinner until the bloc finishes reloading.
         await context
             .read<WalletBloc>()
             .stream
@@ -125,7 +123,7 @@ class _LoadedView extends StatelessWidget {
       child: CenteredContent(
         child: CustomScrollView(
           controller: scrollController,
-          // Always scrollable so pull-to-refresh works even with few items.
+          // Always scrollable so pull-to-refresh works even with a short list.
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(

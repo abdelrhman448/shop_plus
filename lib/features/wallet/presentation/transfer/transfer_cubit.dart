@@ -7,11 +7,9 @@ import '../../data/repositories/wallet_repository.dart';
 
 part 'transfer_state.dart';
 
-/// Drives the points-transfer submission.
-///
-/// A Cubit (not a full Bloc) fits here because the screen has a single action —
-/// "submit the form". Form-field validation lives in the widget layer via
-/// `TextFormField` validators; this Cubit owns only the async submit lifecycle.
+// Handles submitting a transfer. A Cubit is enough here since there's really
+// one action ("submit"). The form fields validate themselves in the widget;
+// this just owns the async submit lifecycle.
 class TransferCubit extends Cubit<TransferState> {
   TransferCubit(this._repository) : super(const TransferInitial());
 

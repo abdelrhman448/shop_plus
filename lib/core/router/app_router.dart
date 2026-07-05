@@ -7,16 +7,12 @@ import '../../features/wallet/presentation/screens/wallet_screen.dart';
 import '../../features/wallet/presentation/transfer/transfer_cubit.dart';
 import '../../features/wallet/presentation/transfer/transfer_screen.dart';
 
-/// Central [GoRouter] configuration.
-///
-/// Routes:
-/// - `/`                 -> redirects to `/wallet`
-/// - `/wallet`           -> Wallet screen (owns a [WalletBloc])
-/// - `/wallet/transfer`  -> Transfer screen (owns a [TransferCubit])
-///
-/// Each screen's Bloc/Cubit is scoped to its route via a [BlocProvider] so it
-/// is created on entry and disposed on exit. Both read the shared
-/// [WalletRepository] from the widget tree (provided in `main`).
+// All routes in one place.
+//   /                -> /wallet
+//   /wallet          -> wallet screen (has its own WalletBloc)
+//   /wallet/transfer -> transfer screen (has its own TransferCubit)
+// Each screen creates its Bloc/Cubit here so it's disposed when we leave the
+// route. Both grab the shared WalletRepository from the tree (see main.dart).
 abstract final class AppRouter {
   const AppRouter._();
 
@@ -42,7 +38,7 @@ abstract final class AppRouter {
               path: TransferScreen.routePath,
               name: TransferScreen.routeName,
               builder: (context, state) {
-                // Available balance is passed as a route `extra`.
+                // We pass the current balance through as `extra`.
                 final availableBalance = (state.extra as int?) ?? 0;
                 return BlocProvider(
                   create: (context) =>

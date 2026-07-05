@@ -5,10 +5,8 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/models/models.dart';
 
-/// The hero card showing the total balance plus pending/expiring points.
-///
-/// `const` where possible and self-contained so it only rebuilds when the
-/// [balance] it is given actually changes.
+// The big card up top: total balance plus pending/expiring. const where we can
+// so it only rebuilds when the balance actually changes.
 class BalanceCard extends StatelessWidget {
   const BalanceCard({super.key, required this.balance});
 

@@ -1,10 +1,7 @@
-/// Supported HTTP methods.
 enum HttpMethod { get, post, put, patch, delete }
 
-/// An immutable description of an outgoing HTTP request.
-///
-/// Interceptors receive and return an [ApiRequest], typically producing a copy
-/// with extra headers (e.g. an auth token) via [copyWith].
+// An outgoing request, immutable. Interceptors take one and hand back a copy,
+// usually with an extra header (like an auth token) via copyWith.
 class ApiRequest {
   const ApiRequest({
     required this.method,
@@ -16,12 +13,12 @@ class ApiRequest {
 
   final HttpMethod method;
 
-  /// Path relative to the client's base URL, e.g. `/wallet/balance`.
+  // Relative to the base URL, e.g. "/wallet/balance".
   final String path;
   final Map<String, String> headers;
   final Map<String, String> query;
 
-  /// A JSON-encodable body (Map/List/primitive), or `null` for no body.
+  // JSON-encodable body (Map/List/primitive), or null for none.
   final Object? body;
 
   ApiRequest copyWith({
@@ -40,7 +37,7 @@ class ApiRequest {
     );
   }
 
-  /// Returns a copy with [extra] merged into the existing headers.
+  // Copy with `extra` merged into the headers.
   ApiRequest withHeaders(Map<String, String> extra) =>
       copyWith(headers: {...headers, ...extra});
 }

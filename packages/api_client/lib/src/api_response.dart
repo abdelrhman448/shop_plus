@@ -1,4 +1,4 @@
-/// A decoded HTTP response.
+// A decoded response.
 class ApiResponse {
   const ApiResponse({
     required this.statusCode,
@@ -8,8 +8,7 @@ class ApiResponse {
 
   final int statusCode;
 
-  /// The decoded JSON body (Map/List/primitive), or `null` if the body was
-  /// empty or not JSON.
+  // Decoded JSON body, or null when empty / not JSON.
   final Object? data;
 
   final Map<String, String> headers;

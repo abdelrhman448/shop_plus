@@ -1,7 +1,5 @@
-/// The kind of a wallet [Transaction].
-///
-/// Serialized to/from the SCREAMING_SNAKE_CASE strings used by the API so the
-/// enum stays the single source of truth on the client.
+// Type of a transaction. We (de)serialize to the SCREAMING_SNAKE_CASE strings
+// the API uses, so this enum is the one source of truth on the client.
 enum TransactionType {
   earn('EARN'),
   redeem('REDEEM'),
@@ -11,7 +9,7 @@ enum TransactionType {
 
   const TransactionType(this.wireValue);
 
-  /// The value used on the wire (JSON).
+  // What the JSON uses.
   final String wireValue;
 
   static TransactionType fromWire(String value) {
@@ -22,7 +20,7 @@ enum TransactionType {
   }
 }
 
-/// Whether a [Transaction] has settled yet.
+// Has the transaction settled yet?
 enum TransactionStatus {
   completed('COMPLETED'),
   pending('PENDING'),

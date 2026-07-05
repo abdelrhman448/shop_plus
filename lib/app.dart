@@ -7,11 +7,9 @@ import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 
-/// Root application widget.
-///
-/// Wires up the router, theming and localization. The active locale comes from
-/// [LocaleCubit] so the in-app language switch rebuilds the whole app (and flips
-/// the layout direction for Arabic automatically).
+// Root widget. Sets up the router, theme and localization. The locale comes
+// from LocaleCubit, so switching language rebuilds everything (and flips to RTL
+// for Arabic on its own).
 class ShopPlusApp extends StatefulWidget {
   const ShopPlusApp({super.key});
 
@@ -20,7 +18,7 @@ class ShopPlusApp extends StatefulWidget {
 }
 
 class _ShopPlusAppState extends State<ShopPlusApp> {
-  // The router is created once and kept alive for the app's lifetime.
+  // Build the router once and hold onto it.
   final _router = AppRouter.create();
 
   @override

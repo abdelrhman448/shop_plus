@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 
-/// Shown when no transactions match the current filter.
+// Shown when the current filter has no matching transactions.
 class EmptyTransactionsView extends StatelessWidget {
   const EmptyTransactionsView({super.key});
 

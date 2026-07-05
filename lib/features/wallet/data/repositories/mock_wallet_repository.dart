@@ -4,15 +4,10 @@ import '../../../../core/error/wallet_exception.dart';
 import '../models/models.dart';
 import 'wallet_repository.dart';
 
-/// In-memory [WalletRepository] used while there is no live API.
-///
-/// It mirrors the real API's behaviour as closely as possible:
-/// - simulated network latency via `Future.delayed`
-/// - server-side style pagination and filtering
-/// - typed [WalletException]s for the documented error cases
-///
-/// Keeping the fake behind the same interface as the eventual HTTP repository
-/// means the BLoC, UI and tests never need to change when we go live.
+// In-memory repo we use until there's a real API. It fakes the real thing:
+// a bit of network delay, server-style paging/filtering, and the same typed
+// errors. Because it hides behind WalletRepository, going live won't touch the
+// BLoC, UI or tests.
 class MockWalletRepository implements WalletRepository {
   MockWalletRepository({
     Duration balanceDelay = const Duration(milliseconds: 800),
@@ -48,7 +43,7 @@ class MockWalletRepository implements WalletRepository {
     }
 
     final startIndex = (page - 1) * limit;
-    // Guard against out-of-range pages so we never throw a RangeError.
+    // Don't blow up if someone asks for a page past the end.
     if (startIndex >= filtered.length) {
       return PaginatedTransactions(
         transactions: const [],
@@ -94,7 +89,7 @@ class MockWalletRepository implements WalletRepository {
     );
   }
 
-  // --- Sample data -----------------------------------------------------------
+  // Sample data (straight from the assessment brief).
 
   final PointsBalance _balance = PointsBalance(
     totalPoints: 15750,

@@ -1,19 +1,15 @@
 import 'package:flutter/widgets.dart';
 
-/// Screen size buckets used to adapt the UI for web/desktop, tablet and mobile.
 enum DeviceType { mobile, tablet, desktop }
 
-/// Breakpoints and helpers for building a responsive, web-friendly UI.
-///
-/// The wallet feature must run well on Flutter Web, so layouts read the current
-/// [DeviceType] to decide column counts, content max-width, etc.
+// Breakpoints + helpers so the UI behaves on web/desktop, not just phones.
 abstract final class Breakpoints {
   const Breakpoints._();
 
   static const double tablet = 600;
   static const double desktop = 1024;
 
-  /// Max content width so the UI does not stretch edge-to-edge on wide screens.
+  // Don't let content stretch full-width on big screens.
   static const double maxContentWidth = 900;
 
   static DeviceType deviceTypeOf(double width) {
@@ -32,9 +28,7 @@ extension ResponsiveContext on BuildContext {
   bool get isDesktop => deviceType == DeviceType.desktop;
 }
 
-/// Constrains its [child] to a comfortable reading width and centers it.
-///
-/// Used to keep forms and lists readable on large web/desktop windows.
+// Centers the child and caps its width. Keeps forms/lists readable on desktop.
 class CenteredContent extends StatelessWidget {
   const CenteredContent({
     super.key,

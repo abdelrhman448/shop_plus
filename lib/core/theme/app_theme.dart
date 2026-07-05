@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-/// Builds the [ThemeData] used across the app.
-///
-/// Kept in a single place so both light and dark themes stay in sync and the
-/// design spec colors flow into every Material component automatically.
+// Light/dark themes for the app. Both share the same base so they stay in sync.
 abstract final class AppTheme {
   const AppTheme._();
 
@@ -36,6 +33,7 @@ abstract final class AppTheme {
     );
   }
 
+  // Shared bits between light and dark.
   static ThemeData _base(ColorScheme scheme) {
     return ThemeData(
       useMaterial3: true,

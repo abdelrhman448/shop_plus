@@ -1,10 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-/// Domain-level error codes the wallet feature can produce.
-///
-/// Using an enum (instead of raw strings scattered around the code) keeps error
-/// handling type-safe and makes it trivial to map an error to a localized,
-/// user-facing message in the UI layer.
+// Error codes coming from the wallet API. An enum keeps things type-safe and
+// lets the UI map each code to a proper (localized) message.
 enum WalletErrorCode {
   insufficientBalance,
   recipientNotFound,
@@ -20,15 +17,14 @@ enum WalletErrorCode {
       case 'NETWORK':
         return WalletErrorCode.network;
       default:
+        // Anything we don't recognize shouldn't crash the app.
         return WalletErrorCode.unknown;
     }
   }
 }
 
-/// A typed exception thrown by the wallet repository.
-///
-/// Carries a machine-readable [code] and a human-readable [message]. The BLoC
-/// catches this and surfaces the [code] so the UI can show the right message.
+// Thrown by the repository when something goes wrong. We keep the raw server
+// code around and expose a typed [code] for the rest of the app to switch on.
 class WalletException extends Equatable implements Exception {
   const WalletException(this.rawCode, this.message);
 

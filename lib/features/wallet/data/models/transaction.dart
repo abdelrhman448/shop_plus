@@ -2,10 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import 'transaction_type.dart';
 
-/// A single wallet activity entry (earn, redeem, transfer, purchase).
-///
-/// [points] is signed: positive for credits (earn/transfer-in/purchase) and
-/// negative for debits (redeem/transfer-out), matching the sample data.
+// One line in the history (earn, redeem, transfer, purchase).
+// points is signed: + for credits, - for debits, like the sample data.
 class Transaction extends Equatable {
   const Transaction({
     required this.id,
@@ -27,7 +25,7 @@ class Transaction extends Equatable {
   final DateTime createdAt;
   final TransactionStatus status;
 
-  /// Whether this transaction adds points to the balance.
+  // True when this adds points rather than spending them.
   bool get isCredit => points >= 0;
 
   factory Transaction.fromJson(Map<String, dynamic> json) {

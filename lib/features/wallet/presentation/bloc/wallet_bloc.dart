@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/wallet_exception.dart';
 import '../../data/models/models.dart';
@@ -8,10 +8,8 @@ import '../../data/repositories/wallet_repository.dart';
 part 'wallet_event.dart';
 part 'wallet_state.dart';
 
-/// Manages the state of the Wallet screen.
-///
-/// Depends on the [WalletRepository] abstraction only, so it can be unit-tested
-/// against a fake and works unchanged with the future real API.
+// Drives the Wallet screen. Only knows about the WalletRepository interface,
+// so it's easy to test with a fake and works as-is with the real API later.
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
   WalletBloc(this._repository) : super(const WalletInitial()) {
     on<LoadWallet>(_onLoad);
@@ -34,8 +32,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     RefreshWallet event,
     Emitter<WalletState> emit,
   ) async {
-    // Keep whatever is on screen while refreshing to avoid a jarring flash;
-    // if we have nothing yet, fall back to a full loading state.
+    // If we already have data, keep it on screen while refreshing (no flash).
+    // Otherwise show the full loading state.
     if (state is! WalletLoaded) emit(const WalletLoading());
     await _fetchInitial(emit);
   }
@@ -68,8 +66,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     }
   }
 
-  /// Filtering happens in-memory over the already-loaded master list, so the
-  /// original data is preserved and switching filters is instant.
+  // Filter in memory over the list we already have. The full list stays intact
+  // so flipping filters is instant and never loses data.
   void _onFilter(FilterTransactions event, Emitter<WalletState> emit) {
     final current = state;
     if (current is! WalletLoaded) return;
@@ -107,7 +105,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         ),
       );
     } on WalletException catch (e) {
-      // Keep the existing list; surface the failure but don't wipe data.
+      // Show the error but keep the list we already have.
       emit(current.copyWith(isLoadingMore: false));
       emit(WalletError(code: e.code, message: e.message));
     } catch (_) {

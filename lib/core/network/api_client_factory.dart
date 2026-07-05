@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:api_client/api_client.dart';
 
-/// Builds the app's [ApiClient] for the (future) real ShopPlus API.
-///
-/// Centralizing construction here means base URL, timeouts, auth and logging
-/// are configured in exactly one place. Not wired into the running app yet —
-/// the app uses [MockWalletRepository] until the backend is available.
+// Builds the ApiClient for the real ShopPlus API (base URL, timeout, auth,
+// logging in one spot). Not used yet — we're on MockWalletRepository until the
+// backend is ready.
 abstract final class ApiClientFactory {
   const ApiClientFactory._();
 

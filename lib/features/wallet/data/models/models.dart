@@ -1,4 +1,5 @@
-/// Barrel file exporting all wallet data models for convenient imports.
+// One import for all the wallet models.
+library;
 export 'merchant_balance.dart';
 export 'paginated_transactions.dart';
 export 'points_balance.dart';

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/responsive/responsive.dart';
+import '../../../../core/widgets/language_toggle_button.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/models/models.dart';
 import '../bloc/wallet_bloc.dart';
@@ -68,7 +69,10 @@ class _WalletScreenState extends State<WalletScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.walletTitle)),
+      appBar: AppBar(
+        title: Text(l10n.walletTitle),
+        actions: const [LanguageToggleButton()],
+      ),
       body: SafeArea(
         child: BlocBuilder<WalletBloc, WalletState>(
           builder: (context, state) {
@@ -165,7 +169,7 @@ class _LoadedView extends StatelessWidget {
             else
               SliverList.separated(
                 itemCount: visible.length,
-                separatorBuilder: (_, __) =>
+                separatorBuilder: (_, _) =>
                     const Divider(height: 1, indent: 72, endIndent: 12),
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
